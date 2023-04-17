@@ -7,10 +7,11 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 const filterUserForClient = (user: User) => {
   return {
-    id: user.id, 
-    username: user.username, 
-    profileImageUrl: user.profileImageUrl}
-}
+    id: user.id,
+    username: user.username,
+    profileImageUrl: user.profileImageUrl,
+  };
+};
 
 export const postsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -23,23 +24,23 @@ export const postsRouter = createTRPCRouter({
         userId: posts.map((post) => post.authorId),
         limit: 100,
       })
-    ).map(filterUserForClient)
+    ).map(filterUserForClient);
 
-    return posts.map(post => {
-      const author = users.find(user => user.id === post.authorId);
+    return posts.map((post) => {
+      const author = users.find((user) => user.id === post.authorId);
 
       if (!author || !author.username)
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Author for post not found"
+          message: "Author for post not found",
         });
-      
+
       return {
         post,
         author: {
           ...author,
           username: author.username,
-        }
+        },
       };
     });
   }),
