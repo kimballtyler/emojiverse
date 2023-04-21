@@ -37,40 +37,42 @@ const CreatePostWizard = () => {
 
   if (!user) return null;
 
-  return <div className="flex w-full gap-3">
-    <Image
-      src={user.profileImageUrl}
-      alt="Profile image"
-      className="rounded-full w-14 h-14"
-      width={56}
-      height={56}
-    />
-    <input
-      placeholder="Type emojis!"
-      className="bg-transparent outline-none grow"
-      value={input}
-      onChange={(e) => setInput(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          if (input !== "") {
-            mutate({ content: input });
+  return (
+    <div className="flex w-full gap-3">
+      <Image
+        src={user.profileImageUrl}
+        alt="Profile image"
+        className="rounded-full w-14 h-14"
+        width={56}
+        height={56}
+      />
+      <input
+        placeholder="Type emojis!"
+        className="bg-transparent outline-none grow"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (input !== "") {
+              mutate({ content: input });
+            }
           }
-        }
-      }}
-      disabled={isPosting}
-    />
-    {input !== "" && !isPosting && (
-      <button onClick={() => mutate({ content: input })}>Post</button>
-    )}
+        }}
+        disabled={isPosting}
+      />
+      {input !== "" && !isPosting && (
+        <button onClick={() => mutate({ content: input })}>Post</button>
+      )}
 
-    {isPosting && (
-      <div className="flex justify-center items-center">
-        <LoadingSpinner size={20} />
-      </div>
-    )}
-  </div>
-}
+      {isPosting && (
+        <div className="flex justify-center items-center">
+          <LoadingSpinner size={20} />
+        </div>
+      )}
+    </div>
+  );
+};
 
 
 type PostWithUser = RouterOutputs["posts"]["getAll"][number]
@@ -88,8 +90,12 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col">
         <div className="flex gap-1 text-slate-300">
-          <span>{`@${author.username}`}</span>
-          <span className="font-thin">{` · ${dayjs(post.createdAt).fromNow()}`}</span>
+          <Link href={`/@${author.username}`}>
+            <span>{`@${author.username}`}</span>
+          </Link>
+          <Link href={`/post/${post.id}`}>
+            <span className="font-thin">{` · ${dayjs(post.createdAt).fromNow()}`}</span>
+          </Link>
         </div>
         <span className="text-2xl">{post.content}</span>
       </div>
