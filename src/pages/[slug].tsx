@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 import { PageLayout } from "~/components/layout";
 import Image from "next/image";
 
-const ProfileFeed = (props: { userId: sting }) => {
+const ProfileFeed = (props: { userId: string }) => {
   const { data, isLoading } = api.posts.getPostsByUserId.useQuery({ userId: props.userId })
 
   if (isLoading) return <LoadingPage />;
