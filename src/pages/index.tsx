@@ -1,7 +1,7 @@
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 
-import { type api } from "~/utils/api";
+import { api } from "~/utils/api";
 
 import Image from "next/image";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
